@@ -8,6 +8,7 @@ class Atracao(models.Model):
     idade_minima = models.IntegerField()
     foto = models.ImageField(
         upload_to="atracoes", null=True, blank=True)
+    observacoes = models.CharField(max_length=50, null=True, blank=True)
 
     def __str__(self):
         return self.nome
