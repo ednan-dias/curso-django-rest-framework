@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly, DjangoModelPermissions
 from rest_framework.authentication import TokenAuthentication
@@ -12,10 +13,10 @@ class PontoTuristicoViewSet(ModelViewSet):
     # queryset = PontoTuristico.objects.filter(aprovado=True)
     serializer_class = PontoTuristicoSerializer
     filter_backends = [SearchFilter]
-    permission_classes = (DjangoModelPermissions,)
+    # permission_classes = (DjangoModelPermissions,)
     authentication_classes = (TokenAuthentication,)
     search_fields = ['nome', 'descricao', '^endereco__linha1']
-    # lookup_field = "nome"
+    lookup_field = "id"
 
     def get_queryset(self):
         id = self.request.query_params.get('id', None)
@@ -57,3 +58,14 @@ class PontoTuristicoViewSet(ModelViewSet):
     # @action(methods=['get'], detail=False)
     # def teste(self, request):
     #     return Response({'Hehe': True})
+
+    @action(methods=['post'], detail=True)
+    def associa_atracoes(self, request, id):
+        atracoes = request.data['ids']
+
+        ponto = PontoTuristico.objects.get(id=id)
+
+        ponto.atracoes.set(atracoes)
+
+        ponto.save()
+        return HttpResponse('Ok')
