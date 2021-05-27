@@ -27,7 +27,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = [
-    'localhost', 'https://curso-django-rest-framework.herokuapp.com/']
+    'localhost', 'curso-django-rest-framework.herokuapp.com/']
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
